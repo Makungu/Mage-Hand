@@ -1,0 +1,17 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1719687638
+icon.svg::CompressedTexture2D::2251463550378718750::1719687138::1719687327::1::::<><>::
+README.md::TextFile::-1::1719663182::0::1::::<><>::
+::res://aseprite/::1719687453
+::res://common/::1719687638
+::res://custom_resources/::1719687371
+::res://enemies/::1719687562
+::res://levels/::1719687573
+::res://player/::1719687417
+player.gd::GDScript::-1::1719687138::0::1::::<>CharacterBody2D<>::
+player.tscn::PackedScene::3480757490953703973::1719687342::0::1::::<><>::res://player/player.gd<>uid://7cvjm0mlcgta::::res://icon.svg
+::res://player/sprite/::1719687417
+::res://world/::1719687342
+world.tscn::PackedScene::3453433465316684081::1719687342::0::1::::<><>::uid://bpudtj3m2lnv6::::res://player/player.tscn
+::res://_autoloads/::1719687349
+::res://_debug/::1719687614
