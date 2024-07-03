@@ -1,0 +1,100 @@
+[gd_scene load_steps=14 format=3 uid="uid://b31uk0aedmvd7"]
+
+[ext_resource type="Texture2D" uid="uid://mqkbgbsp8qjc" path="res://player/sprite/Fist_Area.png" id="2_ck4kn"]
+[ext_resource type="Texture2D" uid="uid://crla2eyy7uumg" path="res://player/sprite/FistParticle.png" id="2_lpeqg"]
+[ext_resource type="Texture2D" uid="uid://o233dutkyc64" path="res://player/sprite/DelegateFist.png" id="3_gx5ts"]
+[ext_resource type="Shader" path="res://player/pixel_outline.gdshader" id="4_b7et4"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_t5nqo"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_ww00n"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7, 0.5), -1.73993, 0.0, 0, 0, Vector2(1, 0), -6.04396, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_o5gjx"]
+curve = SubResource("Curve_ww00n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1q2f3"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(-1, -1, 0)
+emission_shape_scale = Vector3(3, 3, 0)
+direction = Vector3(-1, -1, 0)
+spread = 30.0
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+angular_velocity_min = -10.0
+radial_velocity_min = -10.0
+radial_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_o5gjx")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwjci"]
+atlas = ExtResource("2_ck4kn")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_78l6m"]
+atlas = ExtResource("2_ck4kn")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ns5mc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwjci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_78l6m")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p418d"]
+shader = ExtResource("4_b7et4")
+shader_parameter/color = Color(0.219608, 0.168627, 0.14902, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_s7dyk"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Hand" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_gx5ts")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+canvas_item_default_texture_filter = 0
+canvas_item_default_texture_repeat = 1
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="SubViewport"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_t5nqo")
+position = Vector2(256, 256)
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_1q2f3")
+texture = ExtResource("2_lpeqg")
+preprocess = 1.0
+fixed_fps = 60
+local_coords = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SubViewport"]
+z_index = -2
+position = Vector2(256, 256)
+sprite_frames = SubResource("SpriteFrames_ns5mc")
+autoplay = "default"
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+z_index = -1
+material = SubResource("ShaderMaterial_p418d")
+texture = SubResource("ViewportTexture_s7dyk")

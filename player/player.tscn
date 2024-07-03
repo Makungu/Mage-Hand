@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bpudtj3m2lnv6"]
+[gd_scene load_steps=16 format=3 uid="uid://bpudtj3m2lnv6"]
 
 [ext_resource type="Script" path="res://player/player_states/player.gd" id="1_pxqnl"]
 [ext_resource type="Texture2D" uid="uid://3f2i5m4gdt64" path="res://player/sprite/DelegateAnimated.png" id="2_ahan6"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://player/player_states/groundState.gd" id="4_aw2wu"]
 [ext_resource type="Script" path="res://player/player_states/airState.gd" id="5_qjp32"]
 [ext_resource type="Script" path="res://player/player_states/landingState.gd" id="6_pjwdn"]
+[ext_resource type="PackedScene" uid="uid://b31uk0aedmvd7" path="res://player/hand.tscn" id="7_mw006"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bhem4"]
 radius = 67.4463
@@ -82,6 +83,7 @@ states/Run/position = Vector2(416, 144)
 script = ExtResource("1_pxqnl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -2
 texture = ExtResource("2_ahan6")
 hframes = 8
 vframes = 2
@@ -116,3 +118,6 @@ ground_state = NodePath("../Ground")
 
 [node name="Landing" type="Node" parent="CharacterStateMachine"]
 script = ExtResource("6_pjwdn")
+
+[node name="Sprite2D2" parent="." instance=ExtResource("7_mw006")]
+position = Vector2(-5, 3)
