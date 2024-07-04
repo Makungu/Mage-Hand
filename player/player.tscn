@@ -187,7 +187,6 @@ ground_state = NodePath("../Ground")
 script = ExtResource("6_pjwdn")
 
 [node name="Sprite2D3" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(-5, 3)
 texture = ExtResource("8_i1s82")
 
