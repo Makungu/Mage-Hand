@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bpudtj3m2lnv6"]
+[gd_scene load_steps=31 format=3 uid="uid://bpudtj3m2lnv6"]
 
 [ext_resource type="Script" path="res://player/player_states/player.gd" id="1_pxqnl"]
 [ext_resource type="Texture2D" uid="uid://3f2i5m4gdt64" path="res://player/sprite/DelegateAnimated.png" id="2_ahan6"]
@@ -93,26 +93,47 @@ shader_parameter/add_margins = true
 [sub_resource type="ViewportTexture" id="ViewportTexture_28bs7"]
 viewport_path = NodePath("Node2D2/SubViewport")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mwjci"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pytrk"]
 atlas = ExtResource("10_74hys")
 region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_78l6m"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_odkns"]
 atlas = ExtResource("10_74hys")
 region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0ta1"]
+atlas = ExtResource("10_74hys")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddgs7"]
+atlas = ExtResource("10_74hys")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idhyu"]
+atlas = ExtResource("10_74hys")
+region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5a4vv"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mwjci")
+"texture": SubResource("AtlasTexture_pytrk")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_78l6m")
+"texture": SubResource("AtlasTexture_odkns")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0ta1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddgs7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idhyu")
 }],
 "loop": true,
 "name": &"default",
-"speed": 3.0
+"speed": 8.0
 }]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kavan"]
@@ -134,14 +155,14 @@ particle_flag_disable_z = true
 emission_shape_offset = Vector3(-1, -1, 0)
 emission_shape_scale = Vector3(3, 3, 0)
 direction = Vector3(-1, -1, 0)
-angular_velocity_min = -10.0
-radial_velocity_min = -10.0
-radial_velocity_max = 10.0
-gravity = Vector3(-20, -20, 0)
+gravity = Vector3(-30, -20, 0)
 scale_curve = SubResource("CurveTexture_kqreb")
 turbulence_enabled = true
-turbulence_noise_strength = 9.1
-turbulence_noise_scale = 3.737
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 10.0
+turbulence_noise_speed = Vector3(5, 5, 0)
+turbulence_initial_displacement_min = -1.0
+turbulence_initial_displacement_max = 1.0
 
 [node name="player" type="CharacterBody2D" node_paths=PackedStringArray("loca", "goca")]
 script = ExtResource("1_pxqnl")
@@ -214,8 +235,9 @@ autoplay = "default"
 z_index = -1
 material = SubResource("CanvasItemMaterial_kavan")
 position = Vector2(256, 256)
-amount = 12
 process_material = SubResource("ParticleProcessMaterial_8pujl")
 texture = ExtResource("11_buaaw")
 preprocess = 1.0
+explosiveness = 0.25
+randomness = 1.0
 fixed_fps = 60

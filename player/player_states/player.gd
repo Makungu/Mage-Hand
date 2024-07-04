@@ -21,7 +21,7 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 	
-	loca.global_position = global_position
+	#loca.global_position = global_position
 	#loca.position = loca.global_position 
 	move_and_slide()
 	
