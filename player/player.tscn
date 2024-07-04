@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bpudtj3m2lnv6"]
+[gd_scene load_steps=28 format=3 uid="uid://bpudtj3m2lnv6"]
 
 [ext_resource type="Script" path="res://player/player_states/player.gd" id="1_pxqnl"]
 [ext_resource type="Texture2D" uid="uid://3f2i5m4gdt64" path="res://player/sprite/DelegateAnimated.png" id="2_ahan6"]
@@ -6,10 +6,13 @@
 [ext_resource type="Script" path="res://player/player_states/groundState.gd" id="4_aw2wu"]
 [ext_resource type="Script" path="res://player/player_states/airState.gd" id="5_qjp32"]
 [ext_resource type="Script" path="res://player/player_states/landingState.gd" id="6_pjwdn"]
-[ext_resource type="PackedScene" uid="uid://b31uk0aedmvd7" path="res://player/hand.tscn" id="7_mw006"]
+[ext_resource type="Texture2D" uid="uid://o233dutkyc64" path="res://player/sprite/DelegateFist.png" id="8_i1s82"]
+[ext_resource type="Shader" path="res://player/pixel_outline.gdshader" id="9_ad806"]
+[ext_resource type="Texture2D" uid="uid://mqkbgbsp8qjc" path="res://player/sprite/Fist_Area.png" id="10_74hys"]
+[ext_resource type="Texture2D" uid="uid://crla2eyy7uumg" path="res://player/sprite/FistParticle.png" id="11_buaaw"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_bhem4"]
-radius = 67.4463
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pa8bq"]
+size = Vector2(11, 28)
 
 [sub_resource type="Animation" id="Animation_rwigd"]
 resource_name = "Idle"
@@ -79,8 +82,71 @@ states/Idle/position = Vector2(451, 46)
 states/Run/node = SubResource("AnimationNodeAnimation_v28f8")
 states/Run/position = Vector2(416, 144)
 
-[node name="player" type="CharacterBody2D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xqthf"]
+shader = ExtResource("9_ad806")
+shader_parameter/color = Color(0.219608, 0.168627, 0.14902, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_28bs7"]
+viewport_path = NodePath("Node2D2/SubViewport")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwjci"]
+atlas = ExtResource("10_74hys")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_78l6m"]
+atlas = ExtResource("10_74hys")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5a4vv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwjci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_78l6m")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kavan"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_ytaas"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7, 0.5), -1.73993, 0.0, 0, 0, Vector2(1, 0), -6.04396, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_kqreb"]
+curve = SubResource("Curve_ytaas")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8pujl"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(-1, -1, 0)
+emission_shape_scale = Vector3(3, 3, 0)
+direction = Vector3(-1, -1, 0)
+angular_velocity_min = -10.0
+radial_velocity_min = -10.0
+radial_velocity_max = 10.0
+gravity = Vector3(-20, -20, 0)
+scale_curve = SubResource("CurveTexture_kqreb")
+turbulence_enabled = true
+turbulence_noise_strength = 9.1
+turbulence_noise_scale = 3.737
+
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("loca", "goca")]
 script = ExtResource("1_pxqnl")
+loca = NodePath("Node2D2/SubViewport/GPUParticles2D")
+goca = NodePath("render")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -2
@@ -89,7 +155,8 @@ hframes = 8
 vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_bhem4")
+position = Vector2(-0.5, 2)
+shape = SubResource("RectangleShape2D_pa8bq")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -119,5 +186,37 @@ ground_state = NodePath("../Ground")
 [node name="Landing" type="Node" parent="CharacterStateMachine"]
 script = ExtResource("6_pjwdn")
 
-[node name="Sprite2D2" parent="." instance=ExtResource("7_mw006")]
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(-5, 3)
+texture = ExtResource("8_i1s82")
+
+[node name="render" type="Sprite2D" parent="."]
+z_index = -1
+material = SubResource("ShaderMaterial_xqthf")
+position = Vector2(-5, 3)
+texture = SubResource("ViewportTexture_28bs7")
+
+[node name="Node2D2" type="Node2D" parent="."]
+
+[node name="SubViewport" type="SubViewport" parent="Node2D2"]
+disable_3d = true
+transparent_bg = true
+canvas_item_default_texture_filter = 0
+canvas_item_default_texture_repeat = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Node2D2/SubViewport"]
+z_index = -2
+position = Vector2(256, 256)
+sprite_frames = SubResource("SpriteFrames_5a4vv")
+autoplay = "default"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Node2D2/SubViewport"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_kavan")
+position = Vector2(256, 256)
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_8pujl")
+texture = ExtResource("11_buaaw")
+preprocess = 1.0
+fixed_fps = 60
