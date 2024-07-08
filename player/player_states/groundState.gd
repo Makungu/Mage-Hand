@@ -39,8 +39,8 @@ func hookFunc():
 	
 	if not intersection.is_empty():
 		#var a = intersection.values().pop_front()
-		end_point.clamp()
-		character.hook_pos = intersection.values().pop_front() * -character.grapple_length
+		#end_point.clamp()
+		character.hook_pos = intersection.values().pop_front()
 		next_state = grappling_state
 		
 	#character.grapple_distance = character.position.distance_to(character.hook_pos)
