@@ -33,8 +33,17 @@ func jump():
 	next_state = air_state
 	
 func hookFunc():
-	character.hook_pos = hook.get_collision_point()
-	character.grapple_distance = character.position.distance_to(character.hook_pos)
-	character.grapple_start_pos = character.global_position
-	#character.velocity.x = move_toward(character.velocity.x, 0, speed)
-	next_state = grappling_state
+	var end_point: Vector2 = character.get_global_mouse_position()
+	var intersection_query = PhysicsRayQueryParameters2D.create(character.position, end_point)
+	var intersection = character.get_world_2d().direct_space_state.intersect_ray(intersection_query)
+	
+	if not intersection.is_empty():
+		#var a = intersection.values().pop_front()
+		end_point.clamp()
+		character.hook_pos = intersection.values().pop_front() * -character.grapple_length
+		next_state = grappling_state
+		
+	#character.grapple_distance = character.position.distance_to(character.hook_pos)
+	#character.grapple_start_pos = character.global_position
+	##character.velocity.x = move_toward(character.velocity.x, 0, speed)
+	#next_state = grappling_state
