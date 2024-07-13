@@ -16,8 +16,8 @@ remote_path = NodePath("../../Camera2D")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-position = Vector2(-36, 135)
-polygon = PackedVector2Array(2, -1, 612, -5, 568, 138)
+position = Vector2(6, 347)
+polygon = PackedVector2Array(2, -1, 1115, -5, 568, 138)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(456, -255)

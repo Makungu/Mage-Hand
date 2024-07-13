@@ -13,6 +13,12 @@ var grapple_length: float = 300
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var sprite: Sprite2D = $Sprite2D
 
+@export var particles : Node2D
+@export var particle_renderer : Node2D
+var particle_vector := Vector3.ZERO
+@onready var renderer := $render
+@onready var rectifier = $Hand/CanvasLayer
+
 
 func _ready():
 	animation_tree.active = true
@@ -24,3 +30,11 @@ func _physics_process(delta):
 		
 	move_and_slide()
 	
+func particle_vector_process():
+	particle_vector.x = velocity.x *-1
+	particle_vector.y= velocity.y *-1
+
+	particles.process_material.direction = particle_vector
+	#particles.process_material.gravity = particle_vector
+	#particles.process_material.directional_velocity_min = 100000
+	#particles.process_material.directional_velocity_max = 100000

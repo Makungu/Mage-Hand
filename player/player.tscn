@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bpudtj3m2lnv6"]
+[gd_scene load_steps=23 format=3 uid="uid://bpudtj3m2lnv6"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_pxqnl"]
 [ext_resource type="Texture2D" uid="uid://3f2i5m4gdt64" path="res://player/sprite/DelegateAnimated.png" id="2_ahan6"]
@@ -8,9 +8,11 @@
 [ext_resource type="Script" path="res://player/player_states/airState.gd" id="5_qjp32"]
 [ext_resource type="Script" path="res://player/player_states/landingState.gd" id="6_pjwdn"]
 [ext_resource type="Script" path="res://player/player_states/grapplingState.gd" id="7_a463i"]
+[ext_resource type="Texture2D" uid="uid://o233dutkyc64" path="res://player/sprite/DelegateFist.png" id="8_i1s82"]
+[ext_resource type="Texture2D" uid="uid://mqkbgbsp8qjc" path="res://player/sprite/Fist_Area.png" id="10_74hys"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_bhem4"]
-radius = 67.4463
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pa8bq"]
+size = Vector2(11, 28)
 
 [sub_resource type="Animation" id="Animation_rwigd"]
 resource_name = "Idle"
@@ -105,16 +107,63 @@ states/move/node = SubResource("AnimationNodeBlendSpace1D_nn6yk")
 states/move/position = Vector2(400, 100)
 transitions = ["Start", "move", SubResource("AnimationNodeStateMachineTransition_2kdd8")]
 
-[node name="player" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pytrk"]
+atlas = ExtResource("10_74hys")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odkns"]
+atlas = ExtResource("10_74hys")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0ta1"]
+atlas = ExtResource("10_74hys")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddgs7"]
+atlas = ExtResource("10_74hys")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idhyu"]
+atlas = ExtResource("10_74hys")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5a4vv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pytrk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_odkns")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0ta1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddgs7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idhyu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("particles", "particle_renderer")]
 script = ExtResource("1_pxqnl")
+particles = NodePath("")
+particle_renderer = NodePath("")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -2
 texture = ExtResource("2_ahan6")
 hframes = 8
 vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_bhem4")
+position = Vector2(-0.5, 2)
+shape = SubResource("RectangleShape2D_pa8bq")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -153,3 +202,14 @@ script = ExtResource("3_yx5ml")
 
 [node name="RayCast2D" type="RayCast2D" parent="Node2D"]
 target_position = Vector2(300, 0)
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(-5, 3)
+texture = ExtResource("8_i1s82")
+
+[node name="Hand" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Hand"]
+z_index = -2
+position = Vector2(-5, 3)
+sprite_frames = SubResource("SpriteFrames_5a4vv")
+autoplay = "default"
