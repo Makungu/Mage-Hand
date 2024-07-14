@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cl87shrl6xxfj"]
+
+[node name="HealthBar" type="ProgressBar"]
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 87.0
+offset_bottom = 16.0
+value = 50.0
+show_percentage = false
