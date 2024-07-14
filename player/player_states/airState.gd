@@ -12,7 +12,7 @@ func state_process(delta):
 
 func state_input(event: InputEvent):
 	if event.is_action_pressed("move_left"):
-		jump()
+		pass
 	if event.is_action_pressed("jump") and jumps_remaining > 0:
 		jump()
 	elif event.is_action_pressed("hook"):
