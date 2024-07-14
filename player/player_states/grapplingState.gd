@@ -2,12 +2,9 @@ extends State
 
 class_name GrapplingState
 
-@export var jump_velocity = -400.0
 @export var speed := 4.0
 @export var air_state: AirState
 @export var ground_state: GroundState
-
-@onready var ray_cast = $"../../Node2D/RayCast2D"
 
 var damping: float = 0.995 
 var angular_velocity: float = 0.0
@@ -16,7 +13,6 @@ var angle: float = 0.0
 var radius: float = 0.0
 
 func on_enter():
-	print(character.hook_pos)
 	radius = Vector2.ZERO.distance_to(character.position - character.hook_pos)
 	angle = Vector2.ZERO.angle_to(character.position - character.hook_pos)
 	angular_velocity = 0.0

@@ -1,9 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://bpudtj3m2lnv6"]
+[gd_scene load_steps=27 format=3 uid="uid://bpudtj3m2lnv6"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_pxqnl"]
 [ext_resource type="Texture2D" uid="uid://3f2i5m4gdt64" path="res://player/sprite/DelegateAnimated.png" id="2_ahan6"]
 [ext_resource type="Script" path="res://player/player_states/characterStateMachine.gd" id="3_fcflh"]
-[ext_resource type="Script" path="res://player/Node2D.gd" id="3_yx5ml"]
 [ext_resource type="Script" path="res://player/player_states/groundState.gd" id="4_aw2wu"]
 [ext_resource type="Script" path="res://player/player_states/airState.gd" id="5_qjp32"]
 [ext_resource type="Script" path="res://player/player_states/landingState.gd" id="6_pjwdn"]
@@ -70,12 +69,6 @@ _data = {
 "Run": SubResource("Animation_hoqvh")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uw8hy"]
-animation = &"Idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v28f8"]
-animation = &"Run"
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ucww1"]
 animation = &"Idle"
 
@@ -98,10 +91,6 @@ blend_mode = 1
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ykfwn"]
-states/Idle/node = SubResource("AnimationNodeAnimation_uw8hy")
-states/Idle/position = Vector2(600, 56)
-states/Run/node = SubResource("AnimationNodeAnimation_v28f8")
-states/Run/position = Vector2(548, 167)
 states/Start/position = Vector2(186, 100)
 states/move/node = SubResource("AnimationNodeBlendSpace1D_nn6yk")
 states/move/position = Vector2(400, 100)
@@ -150,10 +139,8 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("particles", "particle_renderer")]
+[node name="player" type="CharacterBody2D"]
 script = ExtResource("1_pxqnl")
-particles = NodePath("")
-particle_renderer = NodePath("")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -2
@@ -173,7 +160,7 @@ libraries = {
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_ykfwn")
 anim_player = NodePath("../AnimationPlayer")
-parameters/move/blend_position = 0
+parameters/move/blend_position = -0.741051
 
 [node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "current_state")]
 script = ExtResource("3_fcflh")
@@ -185,9 +172,10 @@ script = ExtResource("4_aw2wu")
 air_state = NodePath("../Air")
 grappling_state = NodePath("../Grappling")
 
-[node name="Air" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("ground_state")]
+[node name="Air" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("ground_state", "grappling_state")]
 script = ExtResource("5_qjp32")
 ground_state = NodePath("../Ground")
+grappling_state = NodePath("../Grappling")
 
 [node name="Landing" type="Node" parent="CharacterStateMachine"]
 script = ExtResource("6_pjwdn")
@@ -197,11 +185,6 @@ script = ExtResource("7_a463i")
 air_state = NodePath("../Air")
 ground_state = NodePath("../Ground")
 
-[node name="Node2D" type="Node2D" parent="."]
-script = ExtResource("3_yx5ml")
-
-[node name="RayCast2D" type="RayCast2D" parent="Node2D"]
-target_position = Vector2(300, 0)
 [node name="Sprite2D3" type="Sprite2D" parent="."]
 position = Vector2(-5, 3)
 texture = ExtResource("8_i1s82")
