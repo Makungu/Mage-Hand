@@ -123,16 +123,14 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("particles", "particle_renderer")]
+[node name="player" type="CharacterBody2D"]
 script = ExtResource("1_pxqnl")
-particles = NodePath("")
-particle_renderer = NodePath("")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -2
 texture = ExtResource("2_ahan6")
 hframes = 8
-vframes = 2
+vframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 2)
